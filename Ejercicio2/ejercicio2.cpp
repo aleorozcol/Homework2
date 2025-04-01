@@ -37,23 +37,33 @@ class Student {
         int student_id;
         vector<pair<string,float>> list_courses;
         float average;
-
-        string print_courses(auto list_courses){
-            for (int i = 0){
-
-            }
-        }
+          
     public:
         Student (string name, const int id, vector<pair<string,float>> courses){
             full_name = name;
             student_id = id;
             list_courses = courses;
         }
-        void get_student_info_id(const int id){
-            cout << "Nombre del Alumno/a: " << full_name << endl <<
-                    "Legajo: " << student_id << endl <<
-                    "Cursos y notas: " << print_courses(list_courses) << endl;
-        }     
+        void calculate_average(){
+            if(list_courses.empty()){
+                average = 0;
+                return;
+            }
+            float sum_grades = 0;
+            for (auto course : list_courses){
+                sum_grades += course.second;
+            }
+            average = sum_grades / list_courses.size();
+        }
+        float get_average(){
+            return average;
+        }
+        string get_full_name(){
+            return full_name;
+        }
+        int get_id(){
+            return student_id;
+        }
 };
 
 class Course {
@@ -68,10 +78,20 @@ class Course {
             student_list = list;
             max_capacity = max_students;
         }
-        void enroll_student(Student new_student){
+        void inscribe_student(Student new_student){
             if (current_capacity == max_capacity){
-                throw "El curso está completo. No fue posible inscribir al alumno/a.\n";
+                throw runtime_error("El curso está completo. No fue posible inscribir al alumno/a.\n");
             }
+            for (auto student : student_list){
+                if (student->get_id() == new_student.get_id()){
+                    throw runtime_error("Ya está inscripto en el curso.\n");
+                }
+            }
+            student_list.push_back(&new_student);
+            current_capacity++;
+        }
+        void unsubscribe_student(Student old_student){
+                   
         }
 
 };
