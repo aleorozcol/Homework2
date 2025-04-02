@@ -20,10 +20,11 @@ utilizando el método “toString”.
 
 class Number {
     public:
-        virtual float sum();
-        virtual float substraction();
-        virtual float multiplication();
-        virtual string toString();
+        virtual Number* sum(const Number& other) const = 0;
+        virtual Number* substraction(const Number& other) const = 0;
+        virtual Number* multiplication(const Number& other) const = 0;
+        virtual string toString() const = 0;
+        virtual ~Number() = default;
 };
 
 class Integer : public Number {

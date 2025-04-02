@@ -20,7 +20,7 @@ class Student {
         string get_full_name();
         int get_id();
         bool operator<(const Student& other) const;
-        friend ostream& operator<<(ostream& os, const Student& student);
+        friend ostream& operator<<(ostream& os, const Student& student); // se usa friend para imprimir atributos privados
 };
 
 class Course {

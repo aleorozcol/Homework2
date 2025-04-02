@@ -1,7 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
+using namespace std;
 /*
 4. Se tiene una clase abstracta que representa una cuenta de banco genérica. 
 Esta clase tiene los siguiente atributos y métodos:
@@ -30,14 +32,36 @@ c. Escriba el código que permita probar los puntos mencionados para CajaDeAhorr
 
 class BankAccount {
     public:
-        
+        BankAccount(string account_holder);
+        virtual void deposit(double amount);
+        virtual void withdraw(double amount) = 0;
+        virtual void show_info() = 0;
+        virtual ~BankAccount();
 
+    protected:
+        double balance;
+        string account_holder;
 };
 
 class SavingsAccount : public BankAccount {
+    public:
+        SavingsAccount(string account_holder);
+        void withdraw(double amount) override;
+        void show_info() override; 
+        virtual ~SavingsAccount();
+    private:
+        int info_count; 
+        friend class CheckingAccount;     
 
 };
 
 class CheckingAccount : public BankAccount {
+    public:
+        CheckingAccount(string account_holder);
+        void withdraw(double amount) override;
+        void withdraw_savings(SavingsAccount& savings, double amount);
+        void show_info() override;
+        virtual ~CheckingAccount();
+    private:
 
 };
