@@ -19,6 +19,7 @@ class Student {
         float get_average();
         string get_full_name();
         int get_id();
+        bool operator<(const Student& other);
 };
 
 class Course {

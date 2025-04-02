@@ -1,3 +1,7 @@
+#pragma once
+
+#include <iostream>
+
 /*
 4. Se tiene una clase abstracta que representa una cuenta de banco genérica. 
 Esta clase tiene los siguiente atributos y métodos:
@@ -23,3 +27,17 @@ flexibilidad para futuros requerimientos de cambio.
 b. Escriba el código para implementar todas clases.
 c. Escriba el código que permita probar los puntos mencionados para CajaDeAhorro y CuentaCorriente.
 */
+
+class BankAccount {
+    public:
+        
+
+};
+
+class SavingsAccount : public BankAccount {
+
+};
+
+class CheckingAccount : public BankAccount {
+
+};

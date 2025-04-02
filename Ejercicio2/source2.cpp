@@ -1,4 +1,5 @@
 #include "header2.h"
+using namespace std;
 /*
 2. Escribir una clase denominada Curso que contiene un vector (std::vector) con
 punteros a objetos estudiantes. 
@@ -95,6 +96,12 @@ void Course::unenroll_student(Student old_student){
     }
     throw runtime_error("El alumno no pertenece al curso.\n");
 }
+
+bool Student::operator<(const Student& other) const {
+    return this->full_name < other.full_name;
+}
+
+void Student::
 
 string Course::print_student_list(){
     auto each_student = student_list.begin();
