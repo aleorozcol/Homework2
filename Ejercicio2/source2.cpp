@@ -33,6 +33,7 @@ Student::Student (string name, const int id, vector<pair<string,float>> courses)
     full_name = name;
     student_id = id;
     list_courses = courses;
+    average = 0;
 }
 void Student::calculate_average(){
     if(list_courses.empty()){
@@ -55,40 +56,62 @@ int Student::get_id(){
     return student_id;
 }
 
+bool Student::operator<(const Student& other) const{
+    return this->full_name < other.full_name;
+}
+
+ostream& operator<<(ostream& os, const Student& student){
+    os << "Nombre: " << student.full_name
+       << ", Legajo: " << student.student_id
+       << ", Promedio: " << student.average;
+    return os;
+}
+
 
 Course::Course(string name, vector<Student*> list, int max_students){
     course_name = name;
     student_list = list;
     max_capacity = max_students;
+    current_capacity = list.size();
 }
-bool Course::find_student(Student mistery_student){
+
+
+// Copy constructor: realiza una copia superficial.
+// Se copia el nombre, el vector de punteros (compartiendo las mismas instancias de Student),
+// el current_capacity y el max_capacity.
+Course::Course(const Course& other) {
+    course_name = other.course_name;
+    student_list = other.student_list; // shallow copy
+    current_capacity = other.current_capacity;
+    max_capacity = other.max_capacity;
+}
+
+bool Course::find_student(int id){
     for (auto student : student_list){
-        if (student->get_id() == mistery_student.get_id()){
+        if (student->get_id() == id){
             return true;
         }
     }
     return false;        
 }
-bool Course::is_it_full(){
+bool Course::is_it_full() const{
     if (current_capacity == max_capacity) return true;
     return false;
 }
-void Course::enroll_student(Student new_student){
+void Course::enroll_student(Student* new_student){
     if (is_it_full()){
         throw runtime_error("El curso está completo. No fue posible inscribir al alumno/a.\n");
     }
-    for (auto student : student_list){
-        if (student->get_id() == new_student.get_id()){
-            throw runtime_error("Ya está inscripto en el curso.\n");
-        }
+    if (find_student(new_student->get_id())){
+        throw runtime_error("Ya está inscripto.\n");
     }
-    student_list.push_back(&new_student);
+    student_list.push_back(new_student);
     current_capacity++;
 }
-void Course::unenroll_student(Student old_student){
+void Course::unenroll_student(int id){
     auto possible_student = student_list.begin();
     for (possible_student; possible_student != student_list.end(); ++possible_student){
-        if ((*possible_student)->get_id() == old_student.get_id()){
+        if ((*possible_student)->get_id() == id){
             student_list.erase(possible_student);
             current_capacity--;
             return;
@@ -97,15 +120,13 @@ void Course::unenroll_student(Student old_student){
     throw runtime_error("El alumno no pertenece al curso.\n");
 }
 
-bool Student::operator<(const Student& other) const {
-    return this->full_name < other.full_name;
-}
-
-void Student::
-
-string Course::print_student_list(){
-    auto each_student = student_list.begin();
-    for (each_student; each_student != student_list.end(); ++each_student){
-        
-    } 
+void Course::print_student_list() const{
+    vector<Student*> sorted_list = student_list;
+    sort(sorted_list.begin(), sorted_list.end(), [](Student* a, Student* b) {
+        return *a < *b;
+    });
+    cout << "Lista de estudiantes en " << course_name << ": " << endl;
+    for (auto student: sorted_list){
+        cout << *student << endl;
+    }
 }

@@ -19,7 +19,8 @@ class Student {
         float get_average();
         string get_full_name();
         int get_id();
-        bool operator<(const Student& other);
+        bool operator<(const Student& other) const;
+        friend ostream& operator<<(ostream& os, const Student& student);
 };
 
 class Course {
@@ -30,9 +31,16 @@ class Course {
         int max_capacity;
     public:
         Course(string name, vector<Student*> list, int max_students);
-        bool find_student(Student mistery_student);
-        bool is_it_full();
-        void enroll_student(Student new_student);
-        void unenroll_student(Student old_student);
-        string print_student_list();
+        
+        // Copy constructor: realizamos una copia superficial.
+        // Dado que el curso sólo contiene punteros a objetos Student y estos pueden existir de forma independiente,
+        // una copia superficial (shallow copy) es suficiente para compartir la misma instancia de cada estudiante.
+        Course(const Course& other);
+
+        bool find_student(int student_id);
+        bool is_it_full() const;
+        void enroll_student(Student* new_student);
+        void unenroll_student(int student_id);
+        void print_student_list() const;
+        
 };
