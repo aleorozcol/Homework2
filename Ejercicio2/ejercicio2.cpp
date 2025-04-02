@@ -1,8 +1,4 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-using namespace std;
+#include "ejercicio2.h"
 /*
 2. Escribir una clase denominada Curso que contiene un vector (std::vector) con
 punteros a objetos estudiantes. 
@@ -31,79 +27,78 @@ c. ¿Qué tipo de relación existe entre los objetos curso y estudiante?
 d. Proporcione un menú que permita evaluar lo pedido en este ejercicio. 
 */
 
-class Student {
-    private:
-        string full_name;
-        int student_id;
-        vector<pair<string,float>> list_courses;
-        float average;
-          
-    public:
-        Student (string name, const int id, vector<pair<string,float>> courses){
-            full_name = name;
-            student_id = id;
-            list_courses = courses;
-        }
-        void calculate_average(){
-            if(list_courses.empty()){
-                average = 0;
-                return;
-            }
-            float sum_grades = 0;
-            for (auto course : list_courses){
-                sum_grades += course.second;
-            }
-            average = sum_grades / list_courses.size();
-        }
-        float get_average(){
-            return average;
-        }
-        string get_full_name(){
-            return full_name;
-        }
-        int get_id(){
-            return student_id;
-        }
-};
 
-class Course {
-    private:
-        string course_name;
-        vector<Student*> student_list;
-        int current_capacity;
-        int max_capacity;
-    public:
-        Course(string name, vector<Student*> list, int max_students){
-            course_name = name;
-            student_list = list;
-            max_capacity = max_students;
-        }
-        bool find_student(Student mistery_student){
-            for (auto student : student_list){
-                if (student->get_id() == mistery_student.get_id()){
-                    return true;
-                }
-            }
-            return false;        
-        }
-        bool is_it_full(){
-            if (current_capacity == max_capacity) return true;
-            return false;
-        }
-        void inscribe_student(Student new_student){
-            if (is_it_full()){
-                throw runtime_error("El curso está completo. No fue posible inscribir al alumno/a.\n");
-            }
-            for (auto student : student_list){
-                if (student->get_id() == new_student.get_id()){
-                    throw runtime_error("Ya está inscripto en el curso.\n");
-                }
-            }
-            student_list.push_back(&new_student);
-            current_capacity++;
-        }
-        void unsubscribe_student(Student old_student){
-               
-        }
+Student::Student (string name, const int id, vector<pair<string,float>> courses){
+    full_name = name;
+    student_id = id;
+    list_courses = courses;
+}
+void Student::calculate_average(){
+    if(list_courses.empty()){
+        average = 0;
+        return;
+    }
+    float sum_grades = 0;
+    for (auto course : list_courses){
+        sum_grades += course.second;
+    }
+    average = sum_grades / list_courses.size();
+}
+float Student::get_average(){
+    return average;
+}
+string Student::get_full_name(){
+    return full_name;
+}
+int Student::get_id(){
+    return student_id;
+}
 
-};
+
+Course::Course(string name, vector<Student*> list, int max_students){
+    course_name = name;
+    student_list = list;
+    max_capacity = max_students;
+}
+bool Course::find_student(Student mistery_student){
+    for (auto student : student_list){
+        if (student->get_id() == mistery_student.get_id()){
+            return true;
+        }
+    }
+    return false;        
+}
+bool Course::is_it_full(){
+    if (current_capacity == max_capacity) return true;
+    return false;
+}
+void Course::enroll_student(Student new_student){
+    if (is_it_full()){
+        throw runtime_error("El curso está completo. No fue posible inscribir al alumno/a.\n");
+    }
+    for (auto student : student_list){
+        if (student->get_id() == new_student.get_id()){
+            throw runtime_error("Ya está inscripto en el curso.\n");
+        }
+    }
+    student_list.push_back(&new_student);
+    current_capacity++;
+}
+void Course::unenroll_student(Student old_student){
+    auto possible_student = student_list.begin();
+    for (possible_student; possible_student != student_list.end(); ++possible_student){
+        if ((*possible_student)->get_id() == old_student.get_id()){
+            student_list.erase(possible_student);
+            current_capacity--;
+            return;
+        }
+    }
+    throw runtime_error("El alumno no pertenece al curso.\n");
+}
+
+string Course::print_student_list(){
+    auto each_student = student_list.begin();
+    for (each_student; each_student != student_list.end(); ++each_student){
+        
+    } 
+}
