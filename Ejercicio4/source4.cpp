@@ -35,6 +35,8 @@ BankAccount::BankAccount(string name){
 void BankAccount::deposit(double amount){
     if (amount < 0) throw runtime_error("Monto inválido.\n");
     balance+=amount;
+    cout << "Se depositó: " << amount << endl;
+    cout << "Estado actual de la cuenta: " << balance << endl;
 }
 
 BankAccount::~BankAccount(){}
@@ -42,35 +44,58 @@ BankAccount::~BankAccount(){}
 SavingsAccount::SavingsAccount(string account_holder): BankAccount(account_holder), info_count(0) {}
 
 void SavingsAccount::withdraw(double amount){
-    if (amount > balance) throw runtime_error("No se puede retirar esta cantidad de dinero, se excede del total.\n");
+    if (amount > balance) throw runtime_error("No se puede retirar esta cantidad de dinero, se excede del balance.\n");
     balance-=amount;
+    cout << "Se retiró de la Caja de Ahorro: " << amount << endl;
+    cout << "Estado actual de la Caja de Ahorro: " << balance << endl;
 }
 
 void SavingsAccount::show_info() {
     info_count++;
+    cout << "Información de la Caja de Ahorro" << endl;
     cout << "Titular: " << account_holder << endl;
     cout << "Balance: " << balance << endl;
     if (info_count > 2){
         balance -= 20;
+        cout << "Se descontaron $20 por ver más de 2 veces la Caja de Ahorro." << endl;
+        cout << "Estado actual de la Caja de Ahorro: " << balance << endl; 
     }
 }
 
 SavingsAccount::~SavingsAccount(){}
 
-void CheckingAccount::withdraw(double amount){
-    if (amount > balance) throw runtime_error("No se puede retirar esta cantidad de dinero, se excede del total.\n");
-    balance-=amount;    
-}
+CheckingAccount::CheckingAccount(string account_holder): BankAccount(account_holder), savings(nullptr) {}
 
 void CheckingAccount::show_info(){
+    cout << "Información de la Cuente Corriente" << endl;
     cout << "Titular: " << account_holder << endl;
     cout << "Balance: " << balance << endl;
 }
 
-void CheckingAccount::withdraw_savings(SavingsAccount &savings, double amount){
-    if (amount <= savings.balance){
-        savings.balance -= amount;
+void CheckingAccount::set_savings_account(SavingsAccount* savings_account) {
+    savings = savings_account;
+    cout << "Se ha vinculado la Caja de Ahorro al titular: " << savings_account->account_holder << endl;
+}
+
+void CheckingAccount::withdraw(double amount){
+    if (amount <= balance){
+        balance -= amount;
+        cout << "Se retiró de la Cuenta Corriente: " << amount << endl;
+        cout << "Estado actual de la Cuenta Corriente: " << balance << endl;
     } else {
-        cout << "La cuenta no posee fondos suficientes ni en Cuente Corriente ni en Caja de Ahorros." << endl;
+        double missing = amount - balance;
+        if (missing <= savings->balance){
+            double all_out = balance;
+            balance = 0;
+            savings->balance -= missing;
+            cout << "Se retiró de la Cuenta Corriente: " << all_out << endl;
+            cout << "Se retiró de la Caja de Ahorro: " << missing;
+            cout << "Estado actual de la Cuenta Corriente: " << balance << endl;
+            cout << "Estado actual de la Caja de Ahorro: " << savings->balance << endl;
+        } else {
+            throw runtime_error("La cuenta no posee fondos suficientes ni en Cuente Corriente ni en Caja de Ahorros.");
+        }
     }
 }
+
+CheckingAccount::~CheckingAccount(){}

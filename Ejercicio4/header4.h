@@ -63,5 +63,6 @@ class CheckingAccount : public BankAccount {
         void show_info() override;
         virtual ~CheckingAccount();
     private:
-
+        void set_savings_account(SavingsAccount* savings_account);
+        SavingsAccount* savings;
 };
