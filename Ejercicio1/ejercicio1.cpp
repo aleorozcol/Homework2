@@ -1,4 +1,4 @@
-#include "ejercicio.h"
+#include "ejercicio1.h"
 using namespace std;
 /*
 1. Programe una clase que permita expresar un determinado momento en el tiempo en
