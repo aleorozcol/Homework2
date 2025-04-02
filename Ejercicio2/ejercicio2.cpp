@@ -78,8 +78,20 @@ class Course {
             student_list = list;
             max_capacity = max_students;
         }
+        bool find_student(Student mistery_student){
+            for (auto student : student_list){
+                if (student->get_id() == mistery_student.get_id()){
+                    return true;
+                }
+            }
+            return false;        
+        }
+        bool is_it_full(){
+            if (current_capacity == max_capacity) return true;
+            return false;
+        }
         void inscribe_student(Student new_student){
-            if (current_capacity == max_capacity){
+            if (is_it_full()){
                 throw runtime_error("El curso está completo. No fue posible inscribir al alumno/a.\n");
             }
             for (auto student : student_list){
@@ -91,7 +103,7 @@ class Course {
             current_capacity++;
         }
         void unsubscribe_student(Student old_student){
-                   
+               
         }
 
 };

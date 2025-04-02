@@ -1,3 +1,6 @@
+#pragma once
+#ifndef EJERCICIO_H
+#define EJERCICIO_H
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -9,14 +12,15 @@ class Time {
         int hour, min, sec;
         bool am_or_pm;
 
-        bool is_it_valid (int h, int m, int s);
-
         int modified_hour(int h);
 
         string is_it_am(bool am);
 
     public:
-
+        Time ();
+        Time (int h);
+        Time (int h, int m);
+        Time (int h, int m, int s);
         Time (int h, int m, int s, bool am);
     
         void get_time();
@@ -31,4 +35,7 @@ class Time {
         int get_hour();
         int get_min();
         int get_sec();
+        bool is_am();
 };
+
+#endif
