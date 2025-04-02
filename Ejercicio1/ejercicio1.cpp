@@ -117,8 +117,8 @@ int main() {
         cout << "Formato 24h: ";
         t1.get_time_24();
         cout << endl; 
-    } catch (const std::exception& e) {
-        cerr << "Error en caso a: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Error en test a: " << e.what() << endl;
     }
     try {
         Time t2(5);
@@ -128,8 +128,8 @@ int main() {
         cout << "Formato 24h: ";
         t2.get_time_24();
         cout << endl; 
-    } catch (const std::exception& e) {
-        cerr << "Error en caso b: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Error en test b: " << e.what() << endl;
     }        
     try {
         Time t3(5, 30);
@@ -139,8 +139,8 @@ int main() {
         cout << "Formato 24h: ";
         t3.get_time_24();
         cout << endl; 
-    } catch (const std::exception& e) {
-        cerr << "Error en caso c: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Error en test c: " << e.what() << endl;
     }
     try {
         Time t4(5, 30, 15);
@@ -150,8 +150,8 @@ int main() {
         cout << "Formato 24h: ";
         t4.get_time_24();
         cout << endl; 
-    } catch (const std::exception& e) {
-        cerr << "Error en caso d: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Error en test d: " << e.what() << endl;
     }
     try {
         Time t5(5, 14, 43, false);
@@ -161,23 +161,23 @@ int main() {
         cout << "Formato 24h: ";
         t5.get_time_24();
         cout << endl; 
-    } catch (const std::exception& e) {
-        cerr << "Error en caso e: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Error en test e: " << e.what() << endl;
     }
     try {
         Time t_errorHora(13, 0, 0); // Hora fuera de rango (0-12)
-    } catch (const std::exception& e) {
-        cerr << "Caso f) Error de rango en hora: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Test f: Error de rango en hora: " << e.what() << endl;
     }
     try {
         Time t_errorMin(12, 70, 0); // Minutos fuera de rango (0-59)
-    } catch (const std::exception& e) {
-        cerr << "Caso f) Error de rango en minuto: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Test f: Error de rango en minuto: " << e.what() << endl;
     }
     try {
         Time t_errorSeg(12, 59, 70); // Segundos fuera de rango (0-59)
-    } catch (const std::exception& e) {
-        cerr << "Caso f) Error de rango en segundo: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Test f: Error de rango en segundo: " << e.what() << endl;
     }
     cout << endl;
     try {
@@ -186,7 +186,7 @@ int main() {
         t6.set_min(59);
         t6.set_sec(10);
         t6.set_am_pm(false); // p.m.
-        cout << "Caso g) Después de setear atributos" << endl;
+        cout << "Test g: Después de setear atributos" << endl;
         cout << "Formato 12h: ";
         t6.get_time();
         cout << "Formato 24h: ";
@@ -197,8 +197,8 @@ int main() {
         cout << "Seg: " << t6.get_sec() << endl;
         cout << "¿AM? " << boolalpha << t6.is_am() << endl;
         cout << endl;
-    } catch (const std::exception& e) {
-        cerr << "Error en caso g: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << "Error en test g: " << e.what() << endl;
     }
     return 0;
 }
