@@ -59,10 +59,9 @@ class CheckingAccount : public BankAccount {
     public:
         CheckingAccount(string account_holder);
         void withdraw(double amount) override;
-        void withdraw_savings(SavingsAccount& savings, double amount);
+        void set_savings_account(SavingsAccount* savings_account);
         void show_info() override;
         virtual ~CheckingAccount();
     private:
-        void set_savings_account(SavingsAccount* savings_account);
         SavingsAccount* savings;
 };

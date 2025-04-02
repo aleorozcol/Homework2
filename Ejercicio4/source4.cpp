@@ -83,6 +83,9 @@ void CheckingAccount::withdraw(double amount){
         cout << "Se retiró de la Cuenta Corriente: " << amount << endl;
         cout << "Estado actual de la Cuenta Corriente: " << balance << endl;
     } else {
+        if (!savings) {
+            throw runtime_error("No hay Caja de Ahorro asociada a esta Cuenta Corriente.");
+        }
         double missing = amount - balance;
         if (missing <= savings->balance){
             double all_out = balance;
