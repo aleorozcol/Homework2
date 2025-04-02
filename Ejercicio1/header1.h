@@ -1,6 +1,5 @@
 #pragma once
-#ifndef EJERCICIO_H
-#define EJERCICIO_H
+
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -38,4 +37,3 @@ class Time {
         bool is_am();
 };
 
-#endif

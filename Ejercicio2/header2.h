@@ -1,6 +1,5 @@
 #pragma once
-#ifndef EJERCICIO_H
-#define EJERCICIO_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -36,6 +35,3 @@ class Course {
         void unenroll_student(Student old_student);
         string print_student_list();
 };
-
-
-#endif

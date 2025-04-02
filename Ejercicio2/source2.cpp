@@ -1,4 +1,4 @@
-#include "ejercicio2.h"
+#include "header2.h"
 /*
 2. Escribir una clase denominada Curso que contiene un vector (std::vector) con
 punteros a objetos estudiantes. 
