@@ -13,5 +13,17 @@ de cada una de las operaciones con los números que desee e imprima el resultado
 utilizando el método “toString”.
 */
 
+Number::~Number(){}
 
+Integer::Integer(int n){
+    value = n;
+}
+
+int Integer::get_value() const {
+    return value;
+}
+
+Number* Integer::sum(const Number& other) const {
+    
+}
 

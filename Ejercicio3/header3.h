@@ -24,17 +24,43 @@ class Number {
         virtual Number* substraction(const Number& other) const = 0;
         virtual Number* multiplication(const Number& other) const = 0;
         virtual string toString() const = 0;
-        virtual ~Number() = default;
+        virtual ~Number() {}
 };
 
 class Integer : public Number {
-
+    private: 
+        int value;
+    public:
+        Integer(int n);
+        int get_value() const;
+        virtual Number* sum(const Number& other) const override;
+        virtual Number* substraction(const Number& other) const override;
+        virtual Number* multiplication(const Number& other) const override;
+        virtual string toString() const override;
 };
 
 class Real : public Number {
-    
+    private: 
+        double value;
+    public:
+        Real(double n);
+        double get_value() const;
+        virtual Number* sum(const Number& other) const override;
+        virtual Number* substraction(const Number& other) const override;
+        virtual Number* multiplication(const Number& other) const override;
+        virtual string toString() const override;
 };
 
 class Complex : public Number {
-
+    private: 
+        double real;
+        double imaginary;
+    public:
+        Complex(double r, double i);
+        double get_real() const;
+        double get_imaginary() const;
+        virtual Number* sum(const Number& other) const override;
+        virtual Number* substraction(const Number& other) const override;
+        virtual Number* multiplication(const Number& other) const override;
+        virtual string toString() const override;
 };
