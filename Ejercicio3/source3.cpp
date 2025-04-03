@@ -1,5 +1,6 @@
 #include "header3.h"
-
+#include <sstream>
+#include <cmath>
 /*
 3. Escriba una interfaz llamada “Numero” que indique la implementación de las operaciones suma, 
 resta y multiplicación de números (si desea, puede también agregar la división), 
@@ -24,6 +25,123 @@ int Integer::get_value() const {
 }
 
 Number* Integer::sum(const Number& other) const {
-    
+    const Integer* cast = dynamic_cast<const Integer*>(& other);
+    if (cast){
+        return new Integer(value + cast->get_value());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }
 }
 
+Number* Integer::subtraction(const Number& other) const {
+    const Integer* cast = dynamic_cast<const Integer*>(& other);
+    if (cast){
+        return new Integer(value - cast->get_value());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }    
+}
+
+Number* Integer::multiplication(const Number& other) const {
+    const Integer* cast = dynamic_cast<const Integer*>(& other);
+    if (cast){
+        return new Integer(value * cast->get_value());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }    
+}
+
+string Integer::toString() const {
+    return to_string(value);
+}
+
+Real::Real(double n){
+    value = n;
+}
+
+double Real::get_value() const {
+    return value;
+}
+
+Number* Real::sum(const Number& other) const {
+    const Real* cast = dynamic_cast<const Real*>(& other);
+    if (cast){
+        return new Real(value + cast->get_value());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }
+}
+
+Number* Real::subtraction(const Number& other) const {
+    const Real* cast = dynamic_cast<const Real*>(& other);
+    if (cast){
+        return new Real(value - cast->get_value());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }    
+}
+
+Number* Real::multiplication(const Number& other) const {
+    const Real* cast = dynamic_cast<const Real*>(& other);
+    if (cast){
+        return new Real(value * cast->get_value());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }    
+}
+
+string Real::toString() const {
+    return to_string(value);
+}
+
+Complex::Complex(double r, double i){
+    real = r;
+    imaginary = i;
+}
+
+double Complex::get_real() const {
+    return real;
+}
+
+double Complex::get_imaginary() const {
+    return imaginary;
+}
+
+Number* Complex::sum(const Number& other) const {
+    const Complex* cast = dynamic_cast<const Complex*>(& other);
+    if (cast){
+        return new Complex(real + cast->get_real(), imaginary + cast->get_imaginary());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }
+}
+
+Number* Complex::subtraction(const Number& other) const {
+    const Complex* cast = dynamic_cast<const Complex*>(& other);
+    if (cast){
+        return new Complex(real - cast->get_real(), imaginary - cast->get_imaginary());
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }    
+}
+
+Number* Complex::multiplication(const Number& other) const {
+    const Complex* cast = dynamic_cast<const Complex*>(& other);
+    if (cast){
+        double r = real * cast->get_real() - imaginary * cast->get_imaginary();
+        double i = real * cast->get_imaginary() + imaginary * cast->get_real();
+        return new Complex(r, i);
+    } else {
+        throw invalid_argument("El tipo de dato no es compatible.\n");
+    }    
+}
+
+string Complex::toString() const {
+    stringstream ss;
+    ss << real;
+    if(imaginary >= 0)
+        ss << " + " << imaginary << "i";
+    else
+        ss << " - " << fabs(imaginary) << "i";
+    return ss.str();
+}

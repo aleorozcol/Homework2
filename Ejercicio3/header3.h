@@ -21,10 +21,10 @@ utilizando el método “toString”.
 class Number {
     public:
         virtual Number* sum(const Number& other) const = 0;
-        virtual Number* substraction(const Number& other) const = 0;
+        virtual Number* subtraction(const Number& other) const = 0;
         virtual Number* multiplication(const Number& other) const = 0;
         virtual string toString() const = 0;
-        virtual ~Number() {}
+        virtual ~Number();
 };
 
 class Integer : public Number {
@@ -34,7 +34,7 @@ class Integer : public Number {
         Integer(int n);
         int get_value() const;
         virtual Number* sum(const Number& other) const override;
-        virtual Number* substraction(const Number& other) const override;
+        virtual Number* subtraction(const Number& other) const override;
         virtual Number* multiplication(const Number& other) const override;
         virtual string toString() const override;
 };
@@ -46,7 +46,7 @@ class Real : public Number {
         Real(double n);
         double get_value() const;
         virtual Number* sum(const Number& other) const override;
-        virtual Number* substraction(const Number& other) const override;
+        virtual Number* subtraction(const Number& other) const override;
         virtual Number* multiplication(const Number& other) const override;
         virtual string toString() const override;
 };
@@ -60,7 +60,7 @@ class Complex : public Number {
         double get_real() const;
         double get_imaginary() const;
         virtual Number* sum(const Number& other) const override;
-        virtual Number* substraction(const Number& other) const override;
+        virtual Number* subtraction(const Number& other) const override;
         virtual Number* multiplication(const Number& other) const override;
         virtual string toString() const override;
 };
