@@ -1,97 +1,139 @@
 #include "source1.cpp"
 
+/*
+1. Programe una clase que permita expresar un determinado momento en el tiempo en
+el siguiente formato: HHh, MMm, SSs p.m./a.m. Por ejemplo: “03h, 14m, 42s p.m.”.
+Para este ejercicio, puede utilizar la librería iomanip con la funcionalidad provista por
+setw y/o setfill.
+Deberá ser capaz de:
+a. Poder ser inicializada sin parámetros (en cuyo caso el tiempo es 0h, 0m, 0s a.m.)
+b. Poder ser inicializada pasándole sólo la hora (en cuyo caso el tiempo es “HHh,
+0m, 0s a.m.”).
+c. Poder ser inicializada pasándole sólo la hora y los minutos (en cuyo caso el
+tiempo es “HHh, MMm, 0s a.m.”)
+d. Poder ser inicializada pasándole sólo la hora, los minutos y los segundos (en
+cuyo caso el tiempo es “HHh, MMm, SSs a.m.”)
+e. Poder ser inicializada pasándole la hora, los minutos, los segundos y
+“p.m.”/”a.m.” (en cuyo caso el tiempo es “HHh, MMm, SSs p.m./a.m.”).
+f. Agregar funcionalidad a los puntos 1.b-1.e de manera tal que no se introduzcan
+valores fuera de los rangos (por ejemplo, es incorrecto introducir MM = 74).
+g. Permitir cambiar y leer en forma individual: la hora, los minutos, los segundos y
+si se trata de a.m. o p.m. También leer todo junto en el formato pedido.
+h. Escribir un método que escriba por pantalla la hora en formato de hora 0 a 24,
+donde no se utiliza “p.m.”/”a.m.”, por ejemplo, 13hs p.m. no es válido.
+i. Escriba un código que permita verificar cada una de las funcionalidades pedidas
+en 1.a-1.g. Para la verificación se deberá pedir que se interactúe con el
+programa ingresando los datos por teclado. Por ejemplo, en el caso de ingresar
+un valor erróneo, indicar esto por pantalla y permitir ingresar un nuevo valor o
+bien permitir salir del programa.
+*/
 
 int main() {
-    try{
-        Time t1;
-        cout << "Test a: " << endl;
-        cout << "Formato 12h: ";
-        t1.get_time();
-        cout << "Formato 24h: ";
-        t1.get_time_24();
-        cout << endl; 
-    } catch (const exception& e) {
-        cerr << "Error en test a: " << e.what() << endl;
-    }
     try {
-        Time t2(5);
-        cout << "Test b: " << endl;
-        cout << "Formato 12h: ";
-        t2.get_time();
-        cout << "Formato 24h: ";
-        t2.get_time_24();
-        cout << endl; 
-    } catch (const exception& e) {
-        cerr << "Error en test b: " << e.what() << endl;
-    }        
-    try {
-        Time t3(5, 30);
-        cout << "Test c: " << endl;
-        cout << "Formato 12h: ";
-        t3.get_time();
-        cout << "Formato 24h: ";
-        t3.get_time_24();
-        cout << endl; 
-    } catch (const exception& e) {
-        cerr << "Error en test c: " << e.what() << endl;
-    }
-    try {
-        Time t4(5, 30, 15);
-        cout << "Test d: " << endl;
-        cout << "Formato 12h: ";
-        t4.get_time();
-        cout << "Formato 24h: ";
-        t4.get_time_24();
-        cout << endl; 
-    } catch (const exception& e) {
-        cerr << "Error en test d: " << e.what() << endl;
-    }
-    try {
-        Time t5(5, 14, 43, false);
-        cout << "Test e: " << endl;
-        cout << "Formato 12h: ";
+        cout << "----Testing Time----" << endl;
+        cout << "Desea ingresar la hora? (1: Si, 0: No): ";
+        int choice1;
+        cin >> choice1;
+        if (choice1 == 0) {
+            Time t1;
+            cout << "Momento en el tiempo por defecto: ";
+            t1.get_time();
+            return 0;
+        } 
+        cout << "Ingrese la hora (0-12): ";
+        int hour;
+        cin >> hour;
+        cout << "Desea ingresar los minutos? (1: Si, 0: No): ";
+        int choice2;
+        cin >> choice2;
+        if (choice2 == 0){
+            Time t2(hour);
+            cout << "Momento en el tiempo: ";
+            t2.get_time();
+            return 0;
+        }
+        cout << "Ingrese los minutos (0-59): ";
+        int min;
+        cin >> min;
+        cout << "Desea ingresar los segundos? (1: Si, 0: No): ";
+        int choice3;
+        cin >> choice3; 
+        if (choice3 == 0){
+            Time t3(hour, min);
+            cout << "Momento en el tiempo: ";
+            t3.get_time();
+            return 0;
+        }
+        cout << "Ingrese los segundos (0-59): ";
+        int sec;
+        cin >> sec;
+        cout << "Desea ingresar AM o PM? (1: Si, 0: No): ";
+        int choice4;
+        cin >> choice4; 
+        if (choice4 == 0){
+            Time t4(hour, min, sec);
+            cout << "Momento en el tiempo: ";
+            t4.get_time();
+            return 0;
+        }
+        cout << "Ingrese 1 para AM o 0 para PM: ";
+        bool am_pm;
+        cin >> am_pm;
+        Time t5(hour, min, sec, am_pm);
+        cout << "Momento en el tiempo: ";
         t5.get_time();
-        cout << "Formato 24h: ";
+        cout << "Desea ver el formato 24h? (1: Si, 0: No): ";
+        int choice5;
+        cin >> choice5;
+        if (choice5 == 1){
+            cout << "Formato 24h: ";
+            t5.get_time_24();
+        }
+        cout << endl;
+        cout << "Desea cambiar la hora? (1: Si, 0: No): ";
+        int choice6;
+        cin >> choice6;
+        if (choice6 == 1){
+            cout << "Ingrese la nueva hora (0-12): ";
+            int new_hour;
+            cin >> new_hour;
+            t5.set_hour(new_hour);
+        }
+        cout << "Desea cambiar los minutos? (1: Si, 0: No): ";  
+        int choice7;
+        cin >> choice7;
+        if (choice7 == 1){
+            cout << "Ingrese los nuevos minutos (0-59): ";
+            int new_min;
+            cin >> new_min;
+            t5.set_min(new_min);
+        }
+        cout << "Desea cambiar los segundos? (1: Si, 0: No): ";
+        int choice8;
+        cin >> choice8;
+        if (choice8 == 1){
+            cout << "Ingrese los nuevos segundos (0-59): ";
+            int new_sec;
+            cin >> new_sec;
+            t5.set_sec(new_sec);
+        }
+        cout << "Desea cambiar AM o PM? (1: Si, 0: No): ";
+        int choice9;
+        cin >> choice9;
+        if (choice9 == 1){
+            cout << "Ingrese 1 para AM o 0 para PM: ";
+            bool new_am_pm;
+            cin >> new_am_pm;
+            t5.set_am_pm(new_am_pm);
+        }
+        cout << "Momento en el tiempo actualizado: ";
+        t5.get_time();
+        cout << "Formato 24h actualizado: ";
         t5.get_time_24();
-        cout << endl; 
-    } catch (const exception& e) {
-        cerr << "Error en test e: " << e.what() << endl;
-    }
-    try {
-        Time t_errorHora(13, 0, 0); // Hora fuera de rango (0-12)
-    } catch (const exception& e) {
-        cerr << "Test f: Error de rango en hora: " << e.what() << endl;
-    }
-    try {
-        Time t_errorMin(12, 70, 0); // Minutos fuera de rango (0-59)
-    } catch (const exception& e) {
-        cerr << "Test f: Error de rango en minuto: " << e.what() << endl;
-    }
-    try {
-        Time t_errorSeg(12, 59, 70); // Segundos fuera de rango (0-59)
-    } catch (const exception& e) {
-        cerr << "Test f: Error de rango en segundo: " << e.what() << endl;
-    }
-    cout << endl;
-    try {
-        Time t6; // Empezamos con 0h, 0m, 0s a.m.
-        t6.set_hour(11);
-        t6.set_min(59);
-        t6.set_sec(10);
-        t6.set_am_pm(false); // p.m.
-        cout << "Test g: Después de setear atributos" << endl;
-        cout << "Formato 12h: ";
-        t6.get_time();
-        cout << "Formato 24h: ";
-        t6.get_time_24();
-        // Leer los valores individualmente
-        cout << "Hora: " << t6.get_hour() << endl;
-        cout << "Min: " << t6.get_min() << endl;
-        cout << "Seg: " << t6.get_sec() << endl;
-        cout << "¿AM? " << boolalpha << t6.is_am() << endl;
         cout << endl;
     } catch (const exception& e) {
-        cerr << "Error en test g: " << e.what() << endl;
+        cerr << "Error: " << e.what() << endl;
     }
+    cout << "----Testing Time Finalizó----" << endl;
     return 0;
 }
