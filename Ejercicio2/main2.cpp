@@ -1,12 +1,48 @@
 #include "source2.cpp"
 
-///////////funciona mal
+/*
+2. Escribir una clase denominada Curso que contiene un vector (std::vector) con
+punteros a objetos estudiantes. 
+a. El objeto estudiante simplemente cuenta con el nombre completo, su legajo
+(que es único por alumno), una lista de cursos con su nota final y los métodos
+que crea necesarios para obtener los datos del alumno: nombre completo,
+legajo y su promedio general. En función de esto, califique todos los atributos
+correctamente.
+b. Como se mencionó anteriormente, un objeto de la clase Curso contendrá la lista
+de estudiantes del curso (el vector conteniendo objetos tipo estudiante). La
+clase Curso permite:
+i. Inscribir y desinscribir estudiantes al curso.
+ii. Ver si un estudiante se encuentra inscripto o no en el curso buscándolo por
+su legajo.
+iii. Indicar si el curso está completo o no, teniendo en cuenta que el curso tiene
+una capacidad de 20 alumnos.
+iv. Imprimir la lista de estudiantes en orden alfabético. Para ello, utilice el
+algoritmo std::sort() en <algorithm>, el cual requerirá sobreescribir el
+operador “<”, y sobreescriba el operador “<<” (del método y clase que
+correspondan) para presentar los datos por pantalla.
+v. Dado que algunos cursos comparten la mayor parte de los estudiantes, se
+desea poder hacer una copia del objeto curso. Justifique su respuesta con
+un comentario en el código (esta puede llevar varias líneas), indicando de
+que tipo de copia se trata y como la hizo.
+c. ¿Qué tipo de relación existe entre los objetos curso y estudiante?
+d. Proporcione un menú que permita evaluar lo pedido en este ejercicio. 
+*/
+
 int main() {
+    cout << "----Test----" << endl;
+    cout << "Ingrese el nombre del curso: ";
+    string course_name;
+    cin.ignore();
+    getline(cin, course_name);
+
+    cout << "Ingrese la capacidad máxima: ";
+    int max_capacity;
+    cin >> max_capacity;
+
     vector<Student*> initial_list;
-    // Se crea un curso con capacidad máxima de 20 estudiantes.
-    Course myCourse("Matemáticas", initial_list, 20);
+    Course myCourse(course_name, initial_list, max_capacity);
+
     int option;
-    
     do {
         cout << "\n--- Menú ---\n";
         cout << "1. Inscribir alumno\n";
@@ -17,7 +53,7 @@ int main() {
         cout << "6. Salir\n";
         cout << "Ingrese una opción: ";
         cin >> option;
-        
+
         if(option == 1) {
             string name;
             int id, num_courses;
@@ -30,19 +66,19 @@ int main() {
             cin >> num_courses;
             vector<pair<string, float>> courses;
             for (int i = 0; i < num_courses; i++) {
-                string course_name;
+                string c_name;
                 float grade;
-                cout << "Ingrese el nombre del curso " << i+1 << ": ";
-                cin >> course_name;
-                cout << "Ingrese la nota final: ";
+                cout << "Nombre del curso " << i+1 << ": ";
+                cin >> c_name;
+                cout << "Nota final: ";
                 cin >> grade;
-                courses.push_back(make_pair(course_name, grade));
+                courses.push_back(make_pair(c_name, grade));
             }
             Student* newStudent = new Student(name, id, courses);
             newStudent->calculate_average();
             try {
                 myCourse.enroll_student(newStudent);
-                cout << "Alumno inscripto con éxito.\n";
+                cout << "Alumno inscripto.\n";
             } catch (runtime_error& e) {
                 cout << e.what();
             }
@@ -53,7 +89,7 @@ int main() {
             cin >> id;
             try {
                 myCourse.unenroll_student(id);
-                cout << "Alumno desinscripto con éxito.\n";
+                cout << "Alumno desinscripto.\n";
             } catch(runtime_error& e) {
                 cout << e.what();
             }
@@ -65,21 +101,18 @@ int main() {
             if(myCourse.find_student(id))
                 cout << "El alumno está inscripto en el curso.\n";
             else
-                cout << "Alumno no encontrado en el curso.\n";
+                cout << "Alumno no encontrado.\n";
         }
         else if(option == 4) {
             if(myCourse.is_it_full())
                 cout << "El curso está completo.\n";
             else
-                cout << "El curso NO está completo.\n";
+                cout << "El curso no está completo.\n";
         }
         else if(option == 5) {
             myCourse.print_student_list();
         }
     } while(option != 6);
-    
-    // Liberar memoria de los estudiantes inscriptos (en una aplicación real se debe gestionar la vida de los objetos)
-    // NOTA: Dado que el curso no es dueño de los objetos Student, se debe decidir dónde se libera la memoria.
-    
+
     return 0;
 }

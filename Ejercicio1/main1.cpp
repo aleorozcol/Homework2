@@ -32,9 +32,9 @@ int main() {
     try {
         cout << "----Testing Time----" << endl;
         cout << "Desea ingresar la hora? (1: Si, 0: No): ";
-        int choice1;
+        bool choice1;
         cin >> choice1;
-        if (choice1 == 0) {
+        if (!choice1) {
             Time t1;
             cout << "Momento en el tiempo por defecto: ";
             t1.get_time();
@@ -44,9 +44,9 @@ int main() {
         int hour;
         cin >> hour;
         cout << "Desea ingresar los minutos? (1: Si, 0: No): ";
-        int choice2;
+        bool choice2;
         cin >> choice2;
-        if (choice2 == 0){
+        if (!choice2){
             Time t2(hour);
             cout << "Momento en el tiempo: ";
             t2.get_time();
@@ -56,9 +56,9 @@ int main() {
         int min;
         cin >> min;
         cout << "Desea ingresar los segundos? (1: Si, 0: No): ";
-        int choice3;
+        bool choice3;
         cin >> choice3; 
-        if (choice3 == 0){
+        if (!choice3){
             Time t3(hour, min);
             cout << "Momento en el tiempo: ";
             t3.get_time();
@@ -68,9 +68,9 @@ int main() {
         int sec;
         cin >> sec;
         cout << "Desea ingresar AM o PM? (1: Si, 0: No): ";
-        int choice4;
+        bool choice4;
         cin >> choice4; 
-        if (choice4 == 0){
+        if (!choice4){
             Time t4(hour, min, sec);
             cout << "Momento en el tiempo: ";
             t4.get_time();
@@ -83,44 +83,44 @@ int main() {
         cout << "Momento en el tiempo: ";
         t5.get_time();
         cout << "Desea ver el formato 24h? (1: Si, 0: No): ";
-        int choice5;
+        bool choice5;
         cin >> choice5;
-        if (choice5 == 1){
+        if (choice5){
             cout << "Formato 24h: ";
             t5.get_time_24();
         }
         cout << endl;
         cout << "Desea cambiar la hora? (1: Si, 0: No): ";
-        int choice6;
+        bool choice6;
         cin >> choice6;
-        if (choice6 == 1){
+        if (choice6){
             cout << "Ingrese la nueva hora (0-12): ";
             int new_hour;
             cin >> new_hour;
             t5.set_hour(new_hour);
         }
         cout << "Desea cambiar los minutos? (1: Si, 0: No): ";  
-        int choice7;
+        bool choice7;
         cin >> choice7;
-        if (choice7 == 1){
+        if (choice7){
             cout << "Ingrese los nuevos minutos (0-59): ";
             int new_min;
             cin >> new_min;
             t5.set_min(new_min);
         }
         cout << "Desea cambiar los segundos? (1: Si, 0: No): ";
-        int choice8;
+        bool choice8;
         cin >> choice8;
-        if (choice8 == 1){
+        if (choice8){
             cout << "Ingrese los nuevos segundos (0-59): ";
             int new_sec;
             cin >> new_sec;
             t5.set_sec(new_sec);
         }
         cout << "Desea cambiar AM o PM? (1: Si, 0: No): ";
-        int choice9;
+        bool choice9;
         cin >> choice9;
-        if (choice9 == 1){
+        if (choice9){
             cout << "Ingrese 1 para AM o 0 para PM: ";
             bool new_am_pm;
             cin >> new_am_pm;
