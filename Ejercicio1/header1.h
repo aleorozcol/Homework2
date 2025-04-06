@@ -3,19 +3,21 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+
 using namespace std;
 
 class Time {
     private:
 
         int hour, min, sec;
-        bool am_or_pm;
+        bool am_or_pm; // true = am, false = pm
 
         int modified_hour(int h);
 
         string is_it_am(bool am);
 
     public:
+        // Constructores
         Time ();
         Time (int h);
         Time (int h, int m);

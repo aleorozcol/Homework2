@@ -59,7 +59,13 @@ Time::Time(int h, int m, int s, bool am){
 }
 
 int Time::modified_hour(int h){
-    return am_or_pm ? h : (h%12) + 12;
+    if (am_or_pm){
+        if (h == 12) return 0;
+        else return h;
+    } else {
+        if (h == 12) return 12;
+        else return h + 12;
+    }
 }
 string Time::is_it_am(bool am){
     return am ? "a.m." : "p.m.";
