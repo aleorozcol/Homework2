@@ -1,5 +1,6 @@
 #include "source4.cpp"
 
+
 /*
 4. Se tiene una clase abstracta que representa una cuenta de banco genérica. 
 Esta clase tiene los siguiente atributos y métodos:
@@ -26,30 +27,42 @@ b. Escriba el código para implementar todas clases.
 c. Escriba el código que permita probar los puntos mencionados para CajaDeAhorro y CuentaCorriente.
 */
 
+void test_savings(){
+    cout << "----Test de Caja de Ahorro----" << endl;
+    unique_ptr<BankAccount> account = make_unique<SavingsAccount>("Alejandro Orozco");
+    account->deposit(500);
+    account->show_info();
+    account->withdraw(100);
+    account->show_info();
+    account->show_info();
+    account->show_info();
+    account->show_info();
+    account->show_info();
+    account->withdraw(100);
+    cout << "----Fin del test de Caja de Ahorro----" << endl;
+}
+
+void test_checking(BankAccount* savings_account){
+    cout << "----Test de Cuenta Corriente----" << endl;
+    unique_ptr<BankAccount> account2 = make_unique<CheckingAccount>("Alejandro Orozco");
+    CheckingAccount* checking = dynamic_cast<CheckingAccount*>(account2.get());
+    SavingsAccount* savings = dynamic_cast<SavingsAccount*>(savings_account);
+    if (!checking || !savings) {
+        throw runtime_error("Error al crear la cuenta corriente o la cuenta de ahorros");
+    }
+    checking->set_savings_account(savings);
+    account2->deposit(500);
+    account2->show_info();
+    account2->withdraw(700);
+    cout << "----Fin del test de Cuenta Corriente----" << endl;
+}
+
 int main() {
     try {
-        cout << "----Test de Caja de Ahorro----" << endl;
-        BankAccount* account = new SavingsAccount("Alejandro Orozco");
-        account->deposit(1000);
-        account->show_info();
-        account->withdraw(200);
-        account->show_info();
-        account->show_info();
-        account->show_info();
-        account->show_info();
-        account->show_info();
-        account->show_info();
-        account->withdraw(200);   
-        cout << "----Fin del test de Caja de Ahorro----" << endl;
-        cout << "----Test de Cuenta Corriente----" << endl;
-        BankAccount* account2 = new CheckingAccount("Alejandro Orozco");
-        dynamic_cast<CheckingAccount*>(account2)->set_savings_account(dynamic_cast<SavingsAccount*>(account));
-        account2->deposit(500);
-        account2->show_info();
-        account2->withdraw(500);
-        cout << "----Fin del test de Cuenta Corriente----" << endl;
-        delete account;
-        delete account2;
+        unique_ptr<BankAccount> savings_account = make_unique<SavingsAccount>("Alejandro Orozco");
+        savings_account->deposit(1000);
+        test_savings();
+        test_checking(savings_account.get());
 
     } catch (const std::exception& e) {
         cerr << "Error general: " << e.what() << endl;

@@ -92,7 +92,7 @@ void CheckingAccount::withdraw(double amount){
             balance = 0;
             savings->balance -= missing;
             cout << "Se retiró de la Cuenta Corriente: " << all_out << endl;
-            cout << "Se retiró de la Caja de Ahorro: " << missing;
+            cout << "Se retiró de la Caja de Ahorro: " << missing << endl;
             cout << "Estado actual de la Cuenta Corriente: " << balance << endl;
             cout << "Estado actual de la Caja de Ahorro: " << savings->balance << endl;
         } else {

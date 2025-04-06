@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 /*
@@ -31,14 +32,14 @@ c. Escriba el código que permita probar los puntos mencionados para CajaDeAhorr
 */
 
 class BankAccount {
-    public:
+    public: // metodos esenciales para operar con las cuentas
         BankAccount(string account_holder);
         virtual void deposit(double amount);
         virtual void withdraw(double amount) = 0;
         virtual void show_info() = 0;
         virtual ~BankAccount();
 
-    protected:
+    protected: // para que las clases derivadas puedan aaceder a estos atributos
         double balance;
         string account_holder;
 };
@@ -50,8 +51,8 @@ class SavingsAccount : public BankAccount {
         void show_info() override; 
         virtual ~SavingsAccount();
     private:
-        int info_count; 
-        friend class CheckingAccount;     
+        int info_count; //contador interno
+        friend class CheckingAccount; // permite a la cuenta corriente acceder a los atributos privados de la caja de ahorros
 
 };
 
@@ -63,5 +64,5 @@ class CheckingAccount : public BankAccount {
         void show_info() override;
         virtual ~CheckingAccount();
     private:
-        SavingsAccount* savings;
+        SavingsAccount* savings; //para encapsular la relacion con la caja de ahorros
 };
