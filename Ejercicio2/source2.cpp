@@ -1,31 +1,12 @@
 #include "header2.h"
 using namespace std;
 /*
-2. Escribir una clase denominada Curso que contiene un vector (std::vector) con
-punteros a objetos estudiantes. 
-a. El objeto estudiante simplemente cuenta con el nombre completo, su legajo
-(que es único por alumno), una lista de cursos con su nota final y los métodos
-que crea necesarios para obtener los datos del alumno: nombre completo,
-legajo y su promedio general. En función de esto, califique todos los atributos
-correctamente.
-b. Como se mencionó anteriormente, un objeto de la clase Curso contendrá la lista
-de estudiantes del curso (el vector conteniendo objetos tipo estudiante). La
-clase Curso permite:
-i. Inscribir y desinscribir estudiantes al curso.
-ii. Ver si un estudiante se encuentra inscripto o no en el curso buscándolo por
-su legajo.
-iii. Indicar si el curso está completo o no, teniendo en cuenta que el curso tiene
-una capacidad de 20 alumnos.
-iv. Imprimir la lista de estudiantes en orden alfabético. Para ello, utilice el
-algoritmo std::sort() en <algorithm>, el cual requerirá sobreescribir el
-operador “<”, y sobreescriba el operador “<<” (del método y clase que
-correspondan) para presentar los datos por pantalla.
-v. Dado que algunos cursos comparten la mayor parte de los estudiantes, se
-desea poder hacer una copia del objeto curso. Justifique su respuesta con
-un comentario en el código (esta puede llevar varias líneas), indicando de
-que tipo de copia se trata y como la hizo.
 c. ¿Qué tipo de relación existe entre los objetos curso y estudiante?
-d. Proporcione un menú que permita evaluar lo pedido en este ejercicio. 
+La relación entre estos dos objetos es de agregación, ya que un curso "has-a" (tiene)
+una lista de estudiantes, pero los estudiantes pueden existir independientemente de los cursos.
+Si se destruye un curso, los estudinates siguen existiendo y pueden estar asociados a otros cursos.
+En este caso, el todo mantiene una relación con las partes, pero sin una dependencia total: el ciclo de vida de un
+objeto no depende del otro.
 */
 
 
@@ -68,7 +49,7 @@ ostream& operator<<(ostream& os, const Student& student){
 }
 
 
-Course::Course(string name, vector<Student*> list, int max_students){
+Course::Course(string name, vector<shared_ptr<Student>> list, int max_students){
     course_name = name;
     student_list = list;
     max_capacity = max_students;
@@ -76,14 +57,19 @@ Course::Course(string name, vector<Student*> list, int max_students){
 }
 
 
-// Copy constructor: realiza una copia superficial.
-// Se copia el nombre, el vector de punteros (compartiendo las mismas instancias de Student),
-// el current_capacity y el max_capacity.
-Course::Course(const Course& other) {
-    course_name = other.course_name;
-    student_list = other.student_list; // shallow copy
-    current_capacity = other.current_capacity;
-    max_capacity = other.max_capacity;
+/*
+Utilizo shallow copy porque los cursos comparten punteros a los estudiantes.
+Entonces, cada estudiante se mantiene en un único lugar de memoria y varios
+objetos curso pueden apuntar a ellos. También, si un estudiante se modifica,
+todos los cursos que están relacionados a este verán el cambio.
+Si se hace una deep copy, se duplicarían los estudiantes y
+se perdería la relación entre los cursos y los estudiantes.
+*/
+Course::Course(const Course& another_course) {
+    course_name = another_course.course_name;
+    student_list = another_course.student_list; //shallow copy
+    current_capacity = another_course.current_capacity;
+    max_capacity = another_course.max_capacity;
 }
 
 bool Course::find_student(int id){
@@ -98,7 +84,7 @@ bool Course::is_it_full() const{
     if (current_capacity == max_capacity) return true;
     return false;
 }
-void Course::enroll_student(Student* new_student){
+void Course::enroll_student(shared_ptr<Student> new_student){
     if (is_it_full()){
         throw runtime_error("El curso está completo. No fue posible inscribir al alumno/a.\n");
     }
@@ -109,8 +95,7 @@ void Course::enroll_student(Student* new_student){
     current_capacity++;
 }
 void Course::unenroll_student(int id){
-    auto possible_student = student_list.begin();
-    for (possible_student; possible_student != student_list.end(); ++possible_student){
+    for (auto possible_student = student_list.begin(); possible_student != student_list.end(); ++possible_student){
         if ((*possible_student)->get_id() == id){
             student_list.erase(possible_student);
             current_capacity--;
@@ -121,8 +106,8 @@ void Course::unenroll_student(int id){
 }
 
 void Course::print_student_list() const{
-    vector<Student*> sorted_list = student_list;
-    sort(sorted_list.begin(), sorted_list.end(), [](Student* a, Student* b) {
+    vector<shared_ptr<Student>> sorted_list = student_list;
+    sort(sorted_list.begin(), sorted_list.end(), [](shared_ptr<Student> a, shared_ptr<Student> b) {
         return *a < *b;
     });
     cout << "Lista de estudiantes en " << course_name << ": " << endl;

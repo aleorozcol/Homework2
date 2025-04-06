@@ -39,7 +39,7 @@ int main() {
     int max_capacity;
     cin >> max_capacity;
 
-    vector<Student*> initial_list;
+    vector<shared_ptr<Student>> initial_list;
     Course myCourse(course_name, initial_list, max_capacity);
 
     int option;
@@ -66,15 +66,15 @@ int main() {
             cin >> num_courses;
             vector<pair<string, float>> courses;
             for (int i = 0; i < num_courses; i++) {
-                string c_name;
+                string each_course;
                 float grade;
                 cout << "Nombre del curso " << i+1 << ": ";
-                cin >> c_name;
+                cin >> each_course;
                 cout << "Nota final: ";
                 cin >> grade;
-                courses.push_back(make_pair(c_name, grade));
+                courses.push_back(make_pair(each_course, grade));
             }
-            Student* newStudent = new Student(name, id, courses);
+            auto newStudent = make_shared<Student>(name, id, courses);
             newStudent->calculate_average();
             try {
                 myCourse.enroll_student(newStudent);

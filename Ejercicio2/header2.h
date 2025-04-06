@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <memory>
 using namespace std;
 
 class Student {
@@ -26,20 +27,17 @@ class Student {
 class Course {
     private:
         string course_name;
-        vector<Student*> student_list;
+        vector<shared_ptr<Student>> student_list;
         int current_capacity;
         int max_capacity;
     public:
-        Course(string name, vector<Student*> list, int max_students);
-        
-        // Copy constructor: realizamos una copia superficial.
-        // Dado que el curso sólo contiene punteros a objetos Student y estos pueden existir de forma independiente,
-        // una copia superficial (shallow copy) es suficiente para compartir la misma instancia de cada estudiante.
+        Course(string name, vector<shared_ptr<Student>> list, int max_students);
+        // constructor de la copia
         Course(const Course& other);
 
         bool find_student(int student_id);
         bool is_it_full() const;
-        void enroll_student(Student* new_student);
+        void enroll_student(shared_ptr<Student> new_student);
         void unenroll_student(int student_id);
         void print_student_list() const;
         
