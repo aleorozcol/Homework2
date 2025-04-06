@@ -27,33 +27,32 @@ b. Escriba el código para implementar todas clases.
 c. Escriba el código que permita probar los puntos mencionados para CajaDeAhorro y CuentaCorriente.
 */
 
-void test_savings(){
+void test_savings(BankAccount* savings_account){
     cout << "----Test de Caja de Ahorro----" << endl;
-    unique_ptr<BankAccount> account = make_unique<SavingsAccount>("Alejandro Orozco");
-    account->deposit(500);
-    account->show_info();
-    account->withdraw(100);
-    account->show_info();
-    account->show_info();
-    account->show_info();
-    account->show_info();
-    account->show_info();
-    account->withdraw(100);
+    savings_account->deposit(500);
+    savings_account->show_info();
+    savings_account->withdraw(100);
+    savings_account->show_info();
+    savings_account->show_info();
+    savings_account->show_info();
+    savings_account->show_info();
+    savings_account->show_info();
+    savings_account->withdraw(100);
     cout << "----Fin del test de Caja de Ahorro----" << endl;
 }
 
 void test_checking(BankAccount* savings_account){
     cout << "----Test de Cuenta Corriente----" << endl;
-    unique_ptr<BankAccount> account2 = make_unique<CheckingAccount>("Alejandro Orozco");
-    CheckingAccount* checking = dynamic_cast<CheckingAccount*>(account2.get());
+    unique_ptr<BankAccount> account = make_unique<CheckingAccount>("Alejandro Orozco");
+    CheckingAccount* checking = dynamic_cast<CheckingAccount*>(account.get());
     SavingsAccount* savings = dynamic_cast<SavingsAccount*>(savings_account);
     if (!checking || !savings) {
         throw runtime_error("Error al crear la cuenta corriente o la cuenta de ahorros");
     }
     checking->set_savings_account(savings);
-    account2->deposit(500);
-    account2->show_info();
-    account2->withdraw(700);
+    account->deposit(500);
+    account->show_info();
+    account->withdraw(700);
     cout << "----Fin del test de Cuenta Corriente----" << endl;
 }
 
@@ -61,7 +60,7 @@ int main() {
     try {
         unique_ptr<BankAccount> savings_account = make_unique<SavingsAccount>("Alejandro Orozco");
         savings_account->deposit(1000);
-        test_savings();
+        test_savings(savings_account.get()); //usar .get() para obtener el raw pointer así la función trabaja tranquilamente y el smart pointer se encarga de liberar la memoria
         test_checking(savings_account.get());
 
     } catch (const std::exception& e) {
