@@ -1,5 +1,8 @@
 #include "header3.h"
 
+#include <sstream>
+#include <iomanip>
+
 /*
 3. Escriba una interfaz llamada “Numero” que indique la implementación de las operaciones suma, 
 resta y multiplicación de números (si desea, puede también agregar la división), 
@@ -89,8 +92,11 @@ Number* Real::multiplication(const Number& other) const {
     }    
 }
 
+
 string Real::toString() const {
-    return to_string(value);
+    ostringstream oss; // para cambiar de 6.500000 a 6.50
+    oss << fixed << setprecision(2) << value;
+    return oss.str();
 }
 
 Complex::Complex(double r, double i){
@@ -136,10 +142,11 @@ Number* Complex::multiplication(const Number& other) const {
 }
 
 string Complex::toString() const {
-    string result = to_string(real);
+    ostringstream oss; // para cambiar de 6.500000 a 6.50
+    oss << fixed << setprecision(2) << real;
     if (imaginary >= 0)
-        result += " + " + to_string(imaginary) + "i";
+        oss << " + " << fixed << setprecision(2) << imaginary << "i";
     else
-        result += to_string(imaginary) + "i";
-    return result;
+        oss << " - " << fixed << setprecision(2) << -imaginary << "i";
+    return oss.str();
 }

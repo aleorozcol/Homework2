@@ -3,82 +3,76 @@
 using namespace std;
 
 int main() {
-    cout << "==== Test de Integer ====" << endl;
-    {
+    cout << "---- Testing Numbers ----" << endl;
+    cout << "---- Test Enteros ----" << endl;
+    try {
         Number* a = new Integer(5);
         Number* b = new Integer(3);
 
-        // Suma
-        Number* sumResult = a->sum(*b);
-        cout << "5 + 3 = " << sumResult->toString() << endl;
-        delete sumResult;
+        Number* sum_result = a->sum(*b);
+        cout << "5 + 3 = " << sum_result->toString() << endl;
+        delete sum_result;
 
-        // Resta
-        Number* subResult = a->subtraction(*b);
-        cout << "5 - 3 = " << subResult->toString() << endl;
-        delete subResult;
+        Number* sub_result = a->subtraction(*b);
+        cout << "5 - 3 = " << sub_result->toString() << endl;
+        delete sub_result;
 
-        // Multiplicación
-        Number* mulResult = a->multiplication(*b);
-        cout << "5 * 3 = " << mulResult->toString() << endl;
-        delete mulResult;
+        Number* mul_result = a->multiplication(*b);
+        cout << "5 * 3 = " << mul_result->toString() << endl;
+        delete mul_result;
 
-        // Limpieza
         delete a;
         delete b;
+    } catch (const invalid_argument& e) {
+        cout << "Error: " << e.what() << endl;
     }
 
-    cout << endl << "==== Test de Real ====" << endl;
-    {
-        Number* x = new Real(2.5);
-        Number* y = new Real(4.0);
+    cout << endl << "---- Test Reales ----" << endl;
+    try {
+        Number* a = new Real(2.5);
+        Number* b = new Real(4.0);
 
-        // Suma
-        Number* sumResult = x->sum(*y);
-        cout << "2.5 + 4.0 = " << sumResult->toString() << endl;
-        delete sumResult;
+        Number* sum_result = a->sum(*b);
+        cout << "2.5 + 4.0 = " << sum_result->toString() << endl;
+        delete sum_result;
 
-        // Resta
-        Number* subResult = x->subtraction(*y);
-        cout << "2.5 - 4.0 = " << subResult->toString() << endl;
-        delete subResult;
+        Number* sub_result = a->subtraction(*b);
+        cout << "2.5 - 4.0 = " << sub_result->toString() << endl;
+        delete sub_result;
 
-        // Multiplicación
-        Number* mulResult = x->multiplication(*y);
-        cout << "2.5 * 4.0 = " << mulResult->toString() << endl;
-        delete mulResult;
+        Number* mul_result = a->multiplication(*b);
+        cout << "2.5 * 4.0 = " << mul_result->toString() << endl;
+        delete mul_result;
 
-        // Limpieza
-        delete x;
-        delete y;
+        delete a;
+        delete b;
+    } catch (const invalid_argument& e) {
+        cout << "Error: " << e.what() << endl;
     }
 
-    cout << endl << "==== Test de Complex ====" << endl;
-    {
-        Number* c1 = new Complex(1.0, 2.0); // 1 + 2i
-        Number* c2 = new Complex(3.0, -1.0); // 3 - 1i
+    cout << endl << "---- Test Complejos ----" << endl;
+    try {
+        Number* a = new Complex(1.0, 2.0); 
+        Number* b = new Complex(3.0, -1.0);
 
-        // Suma: (1 + 2i) + (3 - 1i) = (4 + 1i)
-        Number* sumResult = c1->sum(*c2);
-        cout << "(1 + 2i) + (3 - 1i) = " << sumResult->toString() << endl;
-        delete sumResult;
+        Number* sum_result = a->sum(*b);
+        cout << "(1 + 2i) + (3 - 1i) = " << sum_result->toString() << endl;
+        delete sum_result;
 
-        // Resta: (1 + 2i) - (3 - 1i) = (-2 + 3i)
-        Number* subResult = c1->subtraction(*c2);
-        cout << "(1 + 2i) - (3 - 1i) = " << subResult->toString() << endl;
-        delete subResult;
+        Number* sub_result = a->subtraction(*b);
+        cout << "(1 + 2i) - (3 - 1i) = " << sub_result->toString() << endl;
+        delete sub_result;
 
-        // Multiplicación: (1 + 2i)*(3 - 1i) = (1*3 + 1* -1i + 2i*3 + 2i*-1i)
-        //                  = 3 - 1i + 6i - 2i^2 = 3 + 5i + 2 (porque i^2 = -1) = 5 + 5i
-        Number* mulResult = c1->multiplication(*c2);
-        cout << "(1 + 2i) * (3 - 1i) = " << mulResult->toString() << endl;
-        delete mulResult;
+        Number* mul_result = a->multiplication(*b);
+        cout << "(1 + 2i) * (3 - 1i) = " << mul_result->toString() << endl;
+        delete mul_result;
 
-        // Limpieza
-        delete c1;
-        delete c2;
+        delete a;
+        delete b;
+    } catch (const invalid_argument& e) {
+        cout << "Error: " << e.what() << endl;
     }
 
-    cout << endl << "==== Fin de Pruebas ====" << endl;
+    cout << endl << "----Testing Numbers Finalizó----" << endl;
     return 0;
 }
